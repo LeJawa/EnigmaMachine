@@ -98,4 +98,46 @@ public class EnigmaMachine
         
         return encryptedMessage;
     }
+
+    public void InitializeReflector(char reflector)
+    {
+        // Reflector (mapping)  ABCDEFGHIJKLMNOPQRSTUVWXYZ
+        // Reflector A 	        EJMZALYXVBWFCRQUONTSPIKHGD
+        // Reflector B 	        YRUHQSLDPXNGOKMIEBFZCWVJAT
+        // Reflector C 	        FVPJIAOYEDRZXWGCTKUQSBNMHL
+        // Reflector B Thin 	ENKQAUYWJICOPBLMDXZVFTHRGS
+        // Reflector C Thin 	RDOBJNTKVEHMLFCWZAXGYIPSUQ
+
+        throw new System.NotImplementedException();
+    }
+
+    public void InitializePlugboard(string positions)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void InitializeRotors(string rotors, string ringPositions, string startPositions)
+    {
+        // Rotor Mapping    ABCDEFGHIJKLMNOPQRSTUVWXYZ
+        // I 	            EKMFLGDQVZNTOWYHXUSPAIBRCJ
+        // II 	            AJDKSIRUXBLHWTMCQGZNPYFVOE
+        // III 	            BDFHJLCPRTXVZNYEIWGAKMUSQO
+        // IV 	            ESOVPZJAYQUIRHXLNFTGKDCMWB
+        // V 	            VZBRGITYUPSDNHLXAWMJQOFECK
+        // VI 	            JPGVOUMFYQBENHZRDKASXLICTW
+        // VII 	            NZJHGRCXMYSWBOUFAIVLPEKQDT
+        // VIII 	        FKQHTLXOCBJSPDZRAMEWNIUYGV
+        // Beta 	        LEYJVCNIXWPBQMDRTAKZGFUHOS
+        // Gamma 	        FSOKANUERHMBTIYCWLQPZXVGJD
+        
+        // Rotor 	        Notch 	Effect
+        // I 	            Q 	    If rotor steps from Q to R, the next rotor is advanced
+        // II 	            E 	    If rotor steps from E to F, the next rotor is advanced
+        // III 	            V 	    If rotor steps from V to W, the next rotor is advanced
+        // IV 	            J 	    If rotor steps from J to K, the next rotor is advanced
+        // V 	            Z 	    If rotor steps from Z to A, the next rotor is advanced
+        // VI, VII, VIII 	Z+M 	If rotor steps from Z to A, or from M to N the next rotor is advanced
+        
+        throw new System.NotImplementedException();
+    }
 }
