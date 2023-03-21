@@ -4,7 +4,7 @@ namespace Enigma;
 
 public class EnigmaMachine
 {
-    private struct SignalComponent
+    private class SignalComponent
     {
         private readonly Dictionary<char, char> _forwardMapping;
         private readonly Dictionary<char, char> _backwardMapping;
@@ -31,6 +31,21 @@ public class EnigmaMachine
         public char GetBackwardLetter(char letter)
         {
             return _backwardMapping[letter];
+        }
+    }
+    
+    private class Rotor: SignalComponent
+    {
+        private int _ringPosition = 0;
+        private int _topPosition = 0;
+        
+        private int _notch1;
+        private int _notch2;
+        
+        public Rotor(string mappingString, int notch1, int notch2 = -1) : base(mappingString)
+        {
+            _notch1 = notch1;
+            _notch2 = notch2;
         }
     }
 
