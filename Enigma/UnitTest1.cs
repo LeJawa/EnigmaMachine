@@ -26,8 +26,7 @@ public class UnitTest1
 
         var encryptedMessage = machine.ExecuteMessage(message);
         
-        Assert.True(encryptedMessage == "this");
-
+        Assert.True(encryptedMessage == "SXVT VT E CATTEYA");
     }
 
     [Fact]
@@ -40,7 +39,20 @@ public class UnitTest1
 
         var encryptedMessage = machine.ExecuteMessage(message);
         
-        Assert.True(encryptedMessage == "this");
+        Assert.True(encryptedMessage == "THIS IS A MESSAGE", encryptedMessage);
 
+    }
+
+    [Fact]
+    public void TestMachineWith3Rotors()
+    {
+        EnigmaMachine machine = new EnigmaMachine();
+        machine.InitializeRotors("II IV V", "", "");
+        
+        var message = "THIS IS A MESSAGE";
+
+        var encryptedMessage = machine.ExecuteMessage(message);
+        
+        Assert.True(encryptedMessage == "THIS IS A MESSAGE", encryptedMessage);
     }
 }

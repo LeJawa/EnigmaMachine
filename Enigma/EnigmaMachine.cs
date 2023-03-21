@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+// ReSharper disable CommentTypo
+// ReSharper disable StringLiteralTypo
 
 namespace Enigma;
 
@@ -21,6 +23,14 @@ public class EnigmaMachine
                 _forwardMapping[alphabet[i]] = mappingString[i];
                 _backwardMapping[mappingString[i]] = alphabet[i];
             }
+        }
+
+        public void SetLetter(char letter1, char letter2)
+        {
+            _forwardMapping[letter1] = letter2;
+            _forwardMapping[letter2] = letter1;
+            _backwardMapping[letter2] = letter1;
+            _backwardMapping[letter1] = letter2;
         }
 
         public char GetForwardLetter(char letter)
@@ -50,15 +60,14 @@ public class EnigmaMachine
     }
 
     private int _numberOfRotors;
-    private SignalComponent[] _componentArray;
+    private SignalComponent _reflector;
+    private SignalComponent _plugboard;
+    private Rotor[] _rotors;
 
 
     public EnigmaMachine(int numberOfRotors = 3)
     {
         _numberOfRotors = numberOfRotors;
-        
-        // Number of components = numberOfRotors + reflector + plugboard
-        _componentArray = new SignalComponent[_numberOfRotors + 2];
         
         InitializeEmptyMachine();
     }
@@ -69,16 +78,17 @@ public class EnigmaMachine
         var alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         
         // Initialize plugboard
-        _componentArray[0] = new SignalComponent(alphabet);
+        _plugboard = new SignalComponent(alphabet);
 
         // Initialize rotors
-        for (int i = 1; i <= _numberOfRotors; i++)
+        _rotors = new Rotor[_numberOfRotors];
+        for (int i = 0; i < _numberOfRotors; i++)
         {
-            _componentArray[i] = new SignalComponent(alphabet);
+            _rotors[i] = new Rotor(alphabet, -1);
         }
         
         // Initialize reflector
-        _componentArray[_numberOfRotors + 1] = new SignalComponent(alphabet);
+        _reflector = new SignalComponent(alphabet);
     }
 
     public string ExecuteMessage(string message)
@@ -96,16 +106,21 @@ public class EnigmaMachine
             char encryptedLetter = letter;
             
             // Forward loop
-            for (var i = 0; i < _componentArray.Length; i++)
+            encryptedLetter = _plugboard.GetForwardLetter(encryptedLetter);
+            foreach (Rotor rotor in _rotors)
             {
-                encryptedLetter = _componentArray[i].GetForwardLetter(encryptedLetter);
+                encryptedLetter = rotor.GetForwardLetter(encryptedLetter);
             }
 
+            encryptedLetter = _reflector.GetForwardLetter(encryptedLetter);
+
             // Backward loop (excluding reflector)
-            for (int i = _componentArray.Length - 2; i >= 0; i--)
+            for (int i = _rotors.Length - 1; i >= 0; i--)
             {
-                encryptedLetter = _componentArray[i].GetBackwardLetter(encryptedLetter);
+                encryptedLetter = _rotors[i].GetBackwardLetter(encryptedLetter);
             }
+
+            encryptedLetter = _plugboard.GetBackwardLetter(encryptedLetter);
 
             encryptedMessage += encryptedLetter;
         }
@@ -120,15 +135,35 @@ public class EnigmaMachine
         // Reflector A 	        EJMZALYXVBWFCRQUONTSPIKHGD
         // Reflector B 	        YRUHQSLDPXNGOKMIEBFZCWVJAT
         // Reflector C 	        FVPJIAOYEDRZXWGCTKUQSBNMHL
-        // Reflector B Thin 	ENKQAUYWJICOPBLMDXZVFTHRGS
-        // Reflector C Thin 	RDOBJNTKVEHMLFCWZAXGYIPSUQ
+        // Reflector B Thin (b)	ENKQAUYWJICOPBLMDXZVFTHRGS
+        // Reflector C Thin (c)	RDOBJNTKVEHMLFCWZAXGYIPSUQ
 
-        throw new System.NotImplementedException();
+        switch (reflector)
+        {
+            case 'A':                               //       ABCDEFGHIJKLMNOPQRSTUVWXYZ
+                _reflector = new SignalComponent("EJMZALYXVBWFCRQUONTSPIKHGD");
+                return;
+            case 'B':
+                _reflector = new SignalComponent("YRUHQSLDPXNGOKMIEBFZCWVJAT");
+                return;
+            case 'C':
+                _reflector = new SignalComponent("FVPJIAOYEDRZXWGCTKUQSBNMHL");
+                return;
+            case 'b':
+                _reflector = new SignalComponent("ENKQAUYWJICOPBLMDXZVFTHRGS");
+                return;
+            case 'c':
+                _reflector = new SignalComponent("RDOBJNTKVEHMLFCWZAXGYIPSUQ");
+                return;
+        }
     }
-
+    
     public void InitializePlugboard(string positions)
     {
-        throw new System.NotImplementedException();
+        foreach (var pair in positions.Split(' '))
+        {
+            _plugboard.SetLetter(pair[0], pair[1]);
+        }
     }
 
     public void InitializeRotors(string rotors, string ringPositions, string startPositions)
@@ -152,7 +187,48 @@ public class EnigmaMachine
         // IV 	            J 	    If rotor steps from J to K, the next rotor is advanced
         // V 	            Z 	    If rotor steps from Z to A, the next rotor is advanced
         // VI, VII, VIII 	Z+M 	If rotor steps from Z to A, or from M to N the next rotor is advanced
-        
-        throw new System.NotImplementedException();
+
+        var rotorStringArray = rotors.Split(' ');
+        _numberOfRotors = rotorStringArray.Length;
+
+        _rotors = new Rotor[_numberOfRotors];
+
+        for (var i = 0; i < rotorStringArray.Length; i++)
+        {
+            switch (rotorStringArray[i])
+            {
+                case "I":                     //       ABCDEFGHIJKLMNOPQRSTUVWXYZ
+                    _rotors[i] = new Rotor("EKMFLGDQVZNTOWYHXUSPAIBRCJ", 'Q');
+                    continue;
+                case "II":                    //       ABCDEFGHIJKLMNOPQRSTUVWXYZ
+                    _rotors[i] = new Rotor("AJDKSIRUXBLHWTMCQGZNPYFVOE", 'E');
+                    continue;
+                case "III":                   //       ABCDEFGHIJKLMNOPQRSTUVWXYZ
+                    _rotors[i] = new Rotor("BDFHJLCPRTXVZNYEIWGAKMUSQO", 'V');
+                    continue;
+                case "IV":                    //       ABCDEFGHIJKLMNOPQRSTUVWXYZ
+                    _rotors[i] = new Rotor("ESOVPZJAYQUIRHXLNFTGKDCMWB", 'J');
+                    continue;
+                case "V":                     //       ABCDEFGHIJKLMNOPQRSTUVWXYZ
+                    _rotors[i] = new Rotor("VZBRGITYUPSDNHLXAWMJQOFECK", 'Z');
+                    continue;
+                case "VI":                    //       ABCDEFGHIJKLMNOPQRSTUVWXYZ
+                    _rotors[i] = new Rotor("JPGVOUMFYQBENHZRDKASXLICTW", 'Z', 'M');
+                    continue;
+                case "VII":                   //       ABCDEFGHIJKLMNOPQRSTUVWXYZ
+                    _rotors[i] = new Rotor("NZJHGRCXMYSWBOUFAIVLPEKQDT", 'Z', 'M');
+                    continue;
+                case "VIII":                  //       ABCDEFGHIJKLMNOPQRSTUVWXYZ
+                    _rotors[i] = new Rotor("FKQHTLXOCBJSPDZRAMEWNIUYGV", 'Z', 'M');
+                    continue;
+                case "Beta":                  //       ABCDEFGHIJKLMNOPQRSTUVWXYZ
+                    _rotors[i] = new Rotor("LEYJVCNIXWPBQMDRTAKZGFUHOS", -1);
+                    continue;
+                case "Gamma":                 //       ABCDEFGHIJKLMNOPQRSTUVWXYZ
+                    _rotors[i] = new Rotor("FSOKANUERHMBTIYCWLQPZXVGJD", -1);
+                    continue;
+                
+            }
+        }
     }
 }
