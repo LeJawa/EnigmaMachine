@@ -199,35 +199,35 @@ public class EnigmaMachine
             {
                 case "I":                     //       ABCDEFGHIJKLMNOPQRSTUVWXYZ
                     _rotors[i] = new Rotor("EKMFLGDQVZNTOWYHXUSPAIBRCJ", 'Q');
-                    continue;
+                    break;
                 case "II":                    //       ABCDEFGHIJKLMNOPQRSTUVWXYZ
                     _rotors[i] = new Rotor("AJDKSIRUXBLHWTMCQGZNPYFVOE", 'E');
-                    continue;
+                    break;
                 case "III":                   //       ABCDEFGHIJKLMNOPQRSTUVWXYZ
                     _rotors[i] = new Rotor("BDFHJLCPRTXVZNYEIWGAKMUSQO", 'V');
-                    continue;
+                    break;
                 case "IV":                    //       ABCDEFGHIJKLMNOPQRSTUVWXYZ
                     _rotors[i] = new Rotor("ESOVPZJAYQUIRHXLNFTGKDCMWB", 'J');
-                    continue;
+                    break;
                 case "V":                     //       ABCDEFGHIJKLMNOPQRSTUVWXYZ
                     _rotors[i] = new Rotor("VZBRGITYUPSDNHLXAWMJQOFECK", 'Z');
-                    continue;
+                    break;
                 case "VI":                    //       ABCDEFGHIJKLMNOPQRSTUVWXYZ
                     _rotors[i] = new Rotor("JPGVOUMFYQBENHZRDKASXLICTW", 'Z', 'M');
-                    continue;
+                    break;
                 case "VII":                   //       ABCDEFGHIJKLMNOPQRSTUVWXYZ
                     _rotors[i] = new Rotor("NZJHGRCXMYSWBOUFAIVLPEKQDT", 'Z', 'M');
-                    continue;
+                    break;
                 case "VIII":                  //       ABCDEFGHIJKLMNOPQRSTUVWXYZ
                     _rotors[i] = new Rotor("FKQHTLXOCBJSPDZRAMEWNIUYGV", 'Z', 'M');
-                    continue;
+                    break;
                 case "Beta":                  //       ABCDEFGHIJKLMNOPQRSTUVWXYZ
                     _rotors[i] = new Rotor("LEYJVCNIXWPBQMDRTAKZGFUHOS", -1);
-                    continue;
+                    break;
                 case "Gamma":                 //       ABCDEFGHIJKLMNOPQRSTUVWXYZ
                     _rotors[i] = new Rotor("FSOKANUERHMBTIYCWLQPZXVGJD", -1);
-                    continue;
-                
+                    break;
+
             }
         }
     }

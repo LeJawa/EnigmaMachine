@@ -17,16 +17,40 @@ public class UnitTest1
     }
 
     [Fact]
-    public void TestEmptyMachineWithReflectorA()
+    public void TestEmptyMachineWithReflectors()
     {
         EnigmaMachine machine = new EnigmaMachine();
         machine.InitializeReflector('A');
         
-        var message = "THIS IS A MESSAGE";
+        var message = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
         var encryptedMessage = machine.ExecuteMessage(message);
         
-        Assert.True(encryptedMessage == "SXVT VT E CATTEYA");
+        Assert.True(encryptedMessage == "EJMZALYXVBWFCRQUONTSPIKHGD");
+        
+        machine.InitializeReflector('B');
+
+        encryptedMessage = machine.ExecuteMessage(message);
+        
+        Assert.True(encryptedMessage == "YRUHQSLDPXNGOKMIEBFZCWVJAT");
+        
+        machine.InitializeReflector('C');
+
+        encryptedMessage = machine.ExecuteMessage(message);
+        
+        Assert.True(encryptedMessage == "FVPJIAOYEDRZXWGCTKUQSBNMHL");
+        
+        machine.InitializeReflector('b');
+
+        encryptedMessage = machine.ExecuteMessage(message);
+        
+        Assert.True(encryptedMessage == "ENKQAUYWJICOPBLMDXZVFTHRGS");
+        
+        machine.InitializeReflector('c');
+
+        encryptedMessage = machine.ExecuteMessage(message);
+        
+        Assert.True(encryptedMessage == "RDOBJNTKVEHMLFCWZAXGYIPSUQ");
     }
 
     [Fact]
@@ -47,7 +71,7 @@ public class UnitTest1
     public void TestMachineWith3Rotors()
     {
         EnigmaMachine machine = new EnigmaMachine();
-        machine.InitializeRotors("II IV V", "", "");
+        machine.InitializeRotors("I II III IV V VI VII VIII Beta Gamma", "", "");
         
         var message = "THIS IS A MESSAGE";
 
