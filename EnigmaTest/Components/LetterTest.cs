@@ -43,10 +43,7 @@ public class LetterTest
     [Fact]
     public void LetterThrowsArgumentExceptionForNonLetters()
     {
-        Assert.Throws<ArgumentException>(() =>
-        {
-            var letter = new Letter('.');
-        });
+        Assert.Throws<ArgumentException>(() => new Letter('.'));
     }
     
     // + operator increments letter

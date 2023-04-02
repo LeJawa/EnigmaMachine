@@ -73,28 +73,43 @@ public class RotorAssembly
         }
     }
 
-    private char[] SanitizeRotorConfiguration(string startPositions)
+    private char[] SanitizeRotorConfiguration(string rotorConfiguration)
     {
-        if (startPositions.Any(c => !(char.IsLetter(c) || char.IsNumber(c) || c == ' ')))
-            throw new ArgumentException($"Incorrect characters in start positions: {startPositions}");
+        if (rotorConfiguration.Any(c => !(char.IsLetter(c) || char.IsNumber(c) || c == ' ')))
+            throw new ArgumentException($"Incorrect characters in rotor configuration: {rotorConfiguration}");
         
-        var splitStartPositions = startPositions.Split(' ');
+        var splitStartPositions = rotorConfiguration.Split(' ');
 
         if (splitStartPositions.Length != _rotors.Length)
         {
             throw new ArgumentException(
-                $"Incorrect number of start positions: Found {splitStartPositions.Length} and expected {_rotors.Length}");
+                $"Incorrect number of rotor configurations: Found {splitStartPositions.Length} and expected {_rotors.Length}");
         }
 
-        if (splitStartPositions.Any(c => c.Length != 1))
+
+        bool configurationAsNumbers = false;
+        
+        if (splitStartPositions.Any(c => c.Length != 1)) // Not letters
         {
-            throw new ArgumentException($"Incorrect start positions: {startPositions}");
+            if (!splitStartPositions.All(str => str.All(char.IsDigit))) // Not all numbers
+            {
+                throw new ArgumentException($"Incorrect rotor configuration: {rotorConfiguration}");
+            }
+
+            configurationAsNumbers = true;
         }
 
         var sanitizedStartPositions = new char[splitStartPositions.Length];
         for (int i = 0; i < splitStartPositions.Length; i++)
         {
-            sanitizedStartPositions[i] = new Letter(splitStartPositions[i][0]).GetChar();
+            if (configurationAsNumbers)
+            {
+                sanitizedStartPositions[i] = new Letter(int.Parse(splitStartPositions[i]) - 1).GetChar();
+            }
+            else
+            {
+                sanitizedStartPositions[i] = new Letter(splitStartPositions[i][0]).GetChar();
+            }
         }
         
         return sanitizedStartPositions;

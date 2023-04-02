@@ -14,7 +14,7 @@ public class RotorAssemblyTest
     [InlineData("I I I I I I I I I I I I I")]
     public void TestConstructor(string rotorPositions)
     {
-        RotorAssembly rotorAssembly = new RotorAssembly(rotorPositions);
+        var unused = new RotorAssembly(rotorPositions);
     }
     
     // Constructor throws ArgumentException if string not properly formatted or unknown rotor

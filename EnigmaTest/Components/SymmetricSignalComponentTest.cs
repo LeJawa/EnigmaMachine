@@ -105,10 +105,7 @@ public class SymmetricSignalComponentTest
     {
         var component = new SymmetricSignalComponentTestClass("EJMZALYXVBWFCRQUONTSPIKHGD");
     
-        Assert.Throws<ArgumentException>(() =>
-        {
-            component.ForwardsPass('.');
-        });
+        Assert.Throws<ArgumentException>(() => component.ForwardsPass('.') );
     }
     
     // GetMapping returns a string with the forwards mapping

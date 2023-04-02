@@ -1,4 +1,3 @@
-using System;
 using Enigma.Components;
 using Xunit;
 
@@ -10,7 +9,7 @@ public class ScramblerUnitTest
     [Fact]
     public void TestScramblerUnitConstructor()
     {
-        ScramblerUnit scramblerUnit = new ScramblerUnit("A", "III II I", "A A A", "A A A");
+        var unused = new ScramblerUnit("A", "III II I", "A A A", "A A A");
     }
     
     // Correct TopPosition after encoding once
