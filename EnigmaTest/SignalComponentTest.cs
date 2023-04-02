@@ -3,24 +3,24 @@ using Xunit;
 using Moq;
 using Enigma.Components;
 // ReSharper disable CommentTypo
+// ReSharper disable StringLiteralTypo
 
 namespace EnigmaTest;
 
 public class SignalComponentTest
 {
-    private Mock<SymmetricSignalComponent>? _mockComponent;
-
-    private void SetupMockComponent(string mapping)
+    private class SymmetricSignalComponentTest : SymmetricSignalComponent
     {
-        _mockComponent = new Mock<SymmetricSignalComponent>(MockBehavior.Loose, mapping);
+        public SymmetricSignalComponentTest(string mapping) : base(mapping) { }
+
+        public SymmetricSignalComponentTest() : base() { }
     }
     
     // SignalComponent can be initialized empty constructor
     [Fact]
     public void TestExistenceOfSignalComponentEmptyConstructor()
     {
-        SymmetricSignalComponent component = new SymmetricSignalComponent(); 
-        
+        var component = new SymmetricSignalComponentTest(SymmetricSignalComponent.Alphabet); 
         Assert.NotNull(component);
     }
     
@@ -28,7 +28,7 @@ public class SignalComponentTest
     [Fact]
     public void TestExistenceOfSignalComponentStringConstructor()
     {
-        SymmetricSignalComponent component = new SymmetricSignalComponent(SymmetricSignalComponent.Alphabet); 
+        var component = new SymmetricSignalComponentTest(SymmetricSignalComponent.Alphabet); 
         
         Assert.NotNull(component);
     }
@@ -37,7 +37,7 @@ public class SignalComponentTest
     [Fact]
     public void TestThrowsArgumentExceptionIfIncorrectMappingInConstructor()
     {
-        Assert.Throws<ArgumentException>(() => new SymmetricSignalComponent("."));
+        Assert.Throws<ArgumentException>(() => new SymmetricSignalComponentTest("."));
     }
     
     // When given a letter as a char, SignalComponent.ForwardsPass returns its mapped value
@@ -47,7 +47,7 @@ public class SignalComponentTest
     [InlineData('Z', 'Z')]
     public void TestForwardsPassWithEmptyConstructor(char input, char expectedOutput)
     {
-        var component = new SymmetricSignalComponent();
+        var component = new SymmetricSignalComponentTest();
     
         char output = component.ForwardsPass(input);
         
@@ -61,7 +61,7 @@ public class SignalComponentTest
     [InlineData('Z', 'J')]
     public void TestForwardsPassWithNonEmptyConstructor(char input, char expectedOutput)
     {
-        var component = new SymmetricSignalComponent("EKMFLGDQVZNTOWYHXUSPAIBRCJ");
+        var component = new SymmetricSignalComponentTest("EKMFLGDQVZNTOWYHXUSPAIBRCJ");
     
         char output = component.ForwardsPass(input);
         
@@ -75,7 +75,7 @@ public class SignalComponentTest
     [InlineData('Z', 'Z')]
     public void TestBackwardsPassWithEmptyConstructor(char input, char expectedOutput)
     {
-        var component = new SymmetricSignalComponent();
+        var component = new SymmetricSignalComponentTest();
     
         char output = component.BackwardsPass(input);
         
@@ -89,7 +89,7 @@ public class SignalComponentTest
     [InlineData('J', 'Z')]
     public void TestBackwardsPassWithNonEmptyConstructor(char input, char expectedOutput)
     {
-        var component = new SymmetricSignalComponent("EKMFLGDQVZNTOWYHXUSPAIBRCJ");
+        var component = new SymmetricSignalComponentTest("EKMFLGDQVZNTOWYHXUSPAIBRCJ");
     
         char output = component.BackwardsPass(input);
         
@@ -105,7 +105,7 @@ public class SignalComponentTest
     [InlineData('z', 'J')]
     public void TestLowerCaseLettersAccepted(char input, char expectedOutput)
     {
-        var component = new SymmetricSignalComponent("EKMFLGDQVZNTOWYHXUSPAIBRCJ");
+        var component = new SymmetricSignalComponentTest("EKMFLGDQVZNTOWYHXUSPAIBRCJ");
     
         char output = component.ForwardsPass(input);
         
@@ -116,7 +116,7 @@ public class SignalComponentTest
     [Fact]
     public void TestThrowsArgumentExceptionForNonLetterCharInput()
     {
-        var component = new SymmetricSignalComponent("EKMFLGDQVZNTOWYHXUSPAIBRCJ");
+        var component = new SymmetricSignalComponentTest("EKMFLGDQVZNTOWYHXUSPAIBRCJ");
     
         Assert.Throws<ArgumentException>(() =>
         {

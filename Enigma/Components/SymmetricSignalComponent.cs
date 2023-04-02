@@ -1,6 +1,6 @@
 namespace Enigma.Components;
 
-public class SymmetricSignalComponent
+public abstract class SymmetricSignalComponent
 {
     public const string Alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
