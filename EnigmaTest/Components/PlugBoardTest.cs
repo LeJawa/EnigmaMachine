@@ -22,6 +22,8 @@ public class PlugBoardTest
     public void TestPlugBoardLetterPairConstructor()
     {
         PlugBoard plugBoard = new PlugBoard("AB FR");
+        
+        Assert.NotNull(plugBoard);
     }
     
     // Plugboard constructor throws ArgmumentException if no letter-pairs in input string
