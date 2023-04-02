@@ -21,4 +21,23 @@ public static class ReflectorBuilder
                 return new Reflector("EJMZALYXVBWFCRQUONTSPIKHGD");
         }
     }
+
+    public static Reflector Get(string name)
+    {
+        switch (name)
+        {
+            case "A":
+                return Get(Reflector.Name.A);
+            case "B":
+                return Get(Reflector.Name.B);
+            case "C":
+                return Get(Reflector.Name.C);
+            case "BThin":
+                return Get(Reflector.Name.BThin);
+            case "CThin":
+                return Get(Reflector.Name.CThin);
+            default:
+                throw new ArgumentException($"Reflector doesn't exists: {name}");
+        }
+    }
 }

@@ -4,7 +4,7 @@ public class Letter
 {
     private readonly int _index;
 
-    private Letter(int index) : this(ParseIndex(index)) { }
+    public Letter(int index) : this(ParseIndex(index)) { }
 
     private static char ParseIndex(int index)
     {

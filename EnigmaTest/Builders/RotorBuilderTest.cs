@@ -18,6 +18,14 @@ public class RotorBuilderTest
         Assert.Equal("EKMFLGDQVZNTOWYHXUSPAIBRCJ", rotor.GetMapping());
     }
     
+    [Fact]
+    public void TestRotorIWithString()
+    {
+        Rotor rotor = RotorBuilder.Get("I");
+        
+        Assert.Equal("EKMFLGDQVZNTOWYHXUSPAIBRCJ", rotor.GetMapping());
+    }
+    
     // Reflector II AJDKSIRUXBLHWTMCQGZNPYFVOE
     [Fact]
     public void TestRotorII()

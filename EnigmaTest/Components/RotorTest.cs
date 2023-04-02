@@ -270,4 +270,22 @@ public class RotorTest
         Assert.Equal(expectedOutput, output);
     }
     
+    // Test constructor with one notch
+    [Fact]
+    public void TestRotorConstructorWithOneNotch()
+    {
+        var rotor = new Rotor("EKMFLGDQVZNTOWYHXUSPAIBRCJ", 'A');
+        
+        Assert.True(rotor.IsInNotchPosition);
+    }
+    
+    // Test constructor with two notch
+    [Fact]
+    public void TestRotorConstructorWithTwoNotches()
+    {
+        var rotor = new Rotor("EKMFLGDQVZNTOWYHXUSPAIBRCJ", 'B', 'A');
+        
+        Assert.True(rotor.IsInNotchPosition);
+    }
+    
 }
