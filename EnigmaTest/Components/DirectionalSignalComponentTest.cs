@@ -30,7 +30,7 @@ public class DirectionalSignalComponentTest
     [Fact]
     public void TestExistenceOfSignalComponentEmptyConstructor()
     {
-        var component = new DirectionalSignalComponentTestClass(SymmetricSignalComponent.Alphabet); 
+        var component = new DirectionalSignalComponentTestClass(); 
         Assert.NotNull(component);
     }
     
@@ -55,7 +55,7 @@ public class DirectionalSignalComponentTest
     
         char output = component.ForwardsPass(input);
         
-        Assert.Equal(output, expectedOutput);
+        Assert.Equal(expectedOutput, output);
     }
     
     // Same tests for BackwardsPass
@@ -70,7 +70,7 @@ public class DirectionalSignalComponentTest
     
         char output = component.BackwardsPass(input);
         
-        Assert.Equal(output, expectedOutput);
+        Assert.Equal(expectedOutput, output);
     }
     
     

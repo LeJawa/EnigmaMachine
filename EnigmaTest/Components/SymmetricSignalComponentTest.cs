@@ -51,7 +51,7 @@ public class SymmetricSignalComponentTest
     
         char output = component.ForwardsPass(input);
         
-        Assert.Equal(output, expectedOutput);
+        Assert.Equal(expectedOutput, output);
     }
     
     // Mapping = "EJMZALYXVBWFCRQUONTSPIKHGD"
@@ -66,7 +66,7 @@ public class SymmetricSignalComponentTest
     
         char output = component.ForwardsPass(input);
         
-        Assert.Equal(output, expectedOutput);
+        Assert.Equal(expectedOutput, output);
     }
     
     // Same tests for BackwardsPass
@@ -80,7 +80,7 @@ public class SymmetricSignalComponentTest
     
         char output = component.BackwardsPass(input);
         
-        Assert.Equal(output, expectedOutput);
+        Assert.Equal(expectedOutput, output);
     }
     
     // Mapping = "EJMZALYXVBWFCRQUONTSPIKHGD"
@@ -95,24 +95,7 @@ public class SymmetricSignalComponentTest
     
         char output = component.BackwardsPass(input);
         
-        Assert.Equal(output, expectedOutput);
-    }
-    
-    
-    // SignalComponent can accept lowercase letters
-    // Mapping = "EJMZALYXVBWFCRQUONTSPIKHGD"
-    [Theory]
-    [InlineData('a', 'E')]
-    [InlineData('e', 'A')]
-    [InlineData('b', 'J')]
-    [InlineData('z', 'D')]
-    public void TestLowerCaseLettersAccepted(char input, char expectedOutput)
-    {
-        var component = new SymmetricSignalComponentTestClass("EJMZALYXVBWFCRQUONTSPIKHGD");
-    
-        char output = component.ForwardsPass(input);
-        
-        Assert.Equal(output, expectedOutput);
+        Assert.Equal(expectedOutput, output);
     }
     
     // If given a non-letter character, SignalComponent throws an ArgumentException

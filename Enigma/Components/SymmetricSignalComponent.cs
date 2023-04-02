@@ -43,7 +43,7 @@ public abstract class SymmetricSignalComponent
         }
     }
 
-    protected char GetOutputFromMapping(char input, Dictionary<char, char> mapping)
+    protected virtual char GetOutputFromMapping(char input, Dictionary<char, char> mapping)
     {
         char sanitizedInput = SanitizeInputLetter(input);
         return mapping[sanitizedInput];
