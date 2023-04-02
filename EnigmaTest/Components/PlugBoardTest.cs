@@ -8,7 +8,7 @@ namespace EnigmaTest.Components;
 
 public class PlugBoardTest
 {
-    // PlugBoard is child of SignalComponent
+    // PlugBoard is child of SymmetricSignalComponent
     [Fact]
     public void TestPlugBoardIsChildOfSignalComponent()
     {
