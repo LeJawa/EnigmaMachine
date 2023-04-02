@@ -4,16 +4,14 @@ public abstract class SymmetricSignalComponent
 {
     public const string Alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-    protected Dictionary<char, char> ForwardsMapping;
-    protected Dictionary<char, char> BackwardsMapping;
+    private readonly Dictionary<char, char> _forwardsMapping;
 
-    public SymmetricSignalComponent()
+    protected SymmetricSignalComponent()
     {
-        ForwardsMapping = CreateMapping(Alphabet, Alphabet);
-        BackwardsMapping = CreateMapping(Alphabet, Alphabet);
+        _forwardsMapping = CreateMapping(Alphabet, Alphabet);
     }
 
-    private Dictionary<char,char> CreateMapping(string input, string output)
+    protected Dictionary<char,char> CreateMapping(string input, string output)
     {
         var mapping = new Dictionary<char, char>();
         for (int i = 0; i < input.Length; i++)
@@ -24,12 +22,17 @@ public abstract class SymmetricSignalComponent
         return mapping;
     }
 
-    public SymmetricSignalComponent(string mappingString)
+    protected void CreateLetterPairMapping(char letter1, char letter2)
+    {
+        _forwardsMapping[letter1] = letter2;
+        _forwardsMapping[letter2] = letter1;
+    }
+
+    protected SymmetricSignalComponent(string mappingString)
     {
         CheckMappingString(mappingString);
         
-        ForwardsMapping = CreateMapping(Alphabet, mappingString);
-        BackwardsMapping = CreateMapping(mappingString, Alphabet);
+        _forwardsMapping = CreateMapping(Alphabet, mappingString);
     }
 
     private static void CheckMappingString(string mappingString)
@@ -40,7 +43,7 @@ public abstract class SymmetricSignalComponent
         }
     }
 
-    private char GetOutputFromMapping(char input, Dictionary<char, char> mapping)
+    protected char GetOutputFromMapping(char input, Dictionary<char, char> mapping)
     {
         char sanitizedInput = SanitizeInputLetter(input);
         return mapping[sanitizedInput];
@@ -56,13 +59,13 @@ public abstract class SymmetricSignalComponent
         return char.ToUpper(input);
     }
 
-    public virtual char ForwardsPass(char input)
+    public char ForwardsPass(char input)
     {
-        return GetOutputFromMapping(input, ForwardsMapping);
+        return GetOutputFromMapping(input, _forwardsMapping);
     }
 
     public virtual char BackwardsPass(char input)
     {
-        return GetOutputFromMapping(input, BackwardsMapping);
+        return ForwardsPass(input);
     }
 }

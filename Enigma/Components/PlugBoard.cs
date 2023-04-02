@@ -27,14 +27,8 @@ public class PlugBoard : SymmetricSignalComponent
 
         foreach (string pair in sanitizedLetterPairs)
         {
-            ForwardsMapping[pair[0]] = pair[1];
-            ForwardsMapping[pair[1]] = pair[0];
+            CreateLetterPairMapping(pair[0], pair[1]);
         }
-    }
-
-    public override char BackwardsPass(char input)
-    {
-        return base.ForwardsPass(input);
     }
 
     private string[] SanitizeLetterPairs(string letterPairs)

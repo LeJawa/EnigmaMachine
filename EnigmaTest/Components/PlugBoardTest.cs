@@ -1,9 +1,10 @@
 using System;
-using Xunit;
 using Enigma.Components;
+using Xunit;
+
 // ReSharper disable CommentTypo
 
-namespace EnigmaTest;
+namespace EnigmaTest.Components;
 
 public class PlugBoardTest
 {

@@ -9,10 +9,7 @@
 	
 	
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=f30b62f1_002Db26b_002D445c_002Dadee_002Df4b9f3ed3f8d/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="All tests from &amp;lt;Enigma&amp;gt;" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
-  &lt;TestAncestor&gt;
-    &lt;TestId&gt;xUnit::0766419B-95F5-4EB3-A891-79B840A27577::net6.0::EnigmaTest.SignalComponentTest&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::0766419B-95F5-4EB3-A891-79B840A27577::net6.0::EnigmaTest.PlugBoardTest&lt;/TestId&gt;
-  &lt;/TestAncestor&gt;
+  &lt;Solution /&gt;
 &lt;/SessionState&gt;</s:String>
 	<s:Boolean x:Key="/Default/UserDictionary/Words/=ABCDEFGHIJKLMNOPQRSTUVWXYZ/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/UserDictionary/Words/=Plugboard/@EntryIndexedValue">True</s:Boolean></wpf:ResourceDictionary>

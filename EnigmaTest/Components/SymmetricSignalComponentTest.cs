@@ -1,26 +1,26 @@
 using System;
-using Xunit;
-using Moq;
 using Enigma.Components;
+using Xunit;
+
 // ReSharper disable CommentTypo
 // ReSharper disable StringLiteralTypo
 
-namespace EnigmaTest;
+namespace EnigmaTest.Components;
 
-public class SignalComponentTest
+public class SymmetricSignalComponentTest
 {
-    private class SymmetricSignalComponentTest : SymmetricSignalComponent
+    private class SymmetricSignalComponentTestClass : SymmetricSignalComponent
     {
-        public SymmetricSignalComponentTest(string mapping) : base(mapping) { }
+        public SymmetricSignalComponentTestClass(string mapping) : base(mapping) { }
 
-        public SymmetricSignalComponentTest() : base() { }
+        public SymmetricSignalComponentTestClass() : base() { }
     }
     
     // SignalComponent can be initialized empty constructor
     [Fact]
     public void TestExistenceOfSignalComponentEmptyConstructor()
     {
-        var component = new SymmetricSignalComponentTest(SymmetricSignalComponent.Alphabet); 
+        var component = new SymmetricSignalComponentTestClass(SymmetricSignalComponent.Alphabet); 
         Assert.NotNull(component);
     }
     
@@ -28,7 +28,7 @@ public class SignalComponentTest
     [Fact]
     public void TestExistenceOfSignalComponentStringConstructor()
     {
-        var component = new SymmetricSignalComponentTest(SymmetricSignalComponent.Alphabet); 
+        var component = new SymmetricSignalComponentTestClass(SymmetricSignalComponent.Alphabet); 
         
         Assert.NotNull(component);
     }
@@ -37,7 +37,7 @@ public class SignalComponentTest
     [Fact]
     public void TestThrowsArgumentExceptionIfIncorrectMappingInConstructor()
     {
-        Assert.Throws<ArgumentException>(() => new SymmetricSignalComponentTest("."));
+        Assert.Throws<ArgumentException>(() => new SymmetricSignalComponentTestClass("."));
     }
     
     // When given a letter as a char, SignalComponent.ForwardsPass returns its mapped value
@@ -47,21 +47,22 @@ public class SignalComponentTest
     [InlineData('Z', 'Z')]
     public void TestForwardsPassWithEmptyConstructor(char input, char expectedOutput)
     {
-        var component = new SymmetricSignalComponentTest();
+        var component = new SymmetricSignalComponentTestClass();
     
         char output = component.ForwardsPass(input);
         
         Assert.Equal(output, expectedOutput);
     }
     
-    // Mapping = "EKMFLGDQVZNTOWYHXUSPAIBRCJ"
+    // Mapping = "EJMZALYXVBWFCRQUONTSPIKHGD"
     [Theory]
     [InlineData('A', 'E')]
-    [InlineData('B', 'K')]
-    [InlineData('Z', 'J')]
+    [InlineData('E', 'A')]
+    [InlineData('B', 'J')]
+    [InlineData('Z', 'D')]
     public void TestForwardsPassWithNonEmptyConstructor(char input, char expectedOutput)
     {
-        var component = new SymmetricSignalComponentTest("EKMFLGDQVZNTOWYHXUSPAIBRCJ");
+        var component = new SymmetricSignalComponentTestClass("EJMZALYXVBWFCRQUONTSPIKHGD");
     
         char output = component.ForwardsPass(input);
         
@@ -75,21 +76,22 @@ public class SignalComponentTest
     [InlineData('Z', 'Z')]
     public void TestBackwardsPassWithEmptyConstructor(char input, char expectedOutput)
     {
-        var component = new SymmetricSignalComponentTest();
+        var component = new SymmetricSignalComponentTestClass();
     
         char output = component.BackwardsPass(input);
         
         Assert.Equal(output, expectedOutput);
     }
     
-    // Mapping = "EKMFLGDQVZNTOWYHXUSPAIBRCJ"
+    // Mapping = "EJMZALYXVBWFCRQUONTSPIKHGD"
     [Theory]
     [InlineData('E', 'A')]
-    [InlineData('K', 'B')]
-    [InlineData('J', 'Z')]
+    [InlineData('A', 'E')]
+    [InlineData('J', 'B')]
+    [InlineData('D', 'Z')]
     public void TestBackwardsPassWithNonEmptyConstructor(char input, char expectedOutput)
     {
-        var component = new SymmetricSignalComponentTest("EKMFLGDQVZNTOWYHXUSPAIBRCJ");
+        var component = new SymmetricSignalComponentTestClass("EJMZALYXVBWFCRQUONTSPIKHGD");
     
         char output = component.BackwardsPass(input);
         
@@ -98,14 +100,15 @@ public class SignalComponentTest
     
     
     // SignalComponent can accept lowercase letters
-    // Mapping = "EKMFLGDQVZNTOWYHXUSPAIBRCJ"
+    // Mapping = "EJMZALYXVBWFCRQUONTSPIKHGD"
     [Theory]
     [InlineData('a', 'E')]
-    [InlineData('b', 'K')]
-    [InlineData('z', 'J')]
+    [InlineData('e', 'A')]
+    [InlineData('b', 'J')]
+    [InlineData('z', 'D')]
     public void TestLowerCaseLettersAccepted(char input, char expectedOutput)
     {
-        var component = new SymmetricSignalComponentTest("EKMFLGDQVZNTOWYHXUSPAIBRCJ");
+        var component = new SymmetricSignalComponentTestClass("EJMZALYXVBWFCRQUONTSPIKHGD");
     
         char output = component.ForwardsPass(input);
         
@@ -116,7 +119,7 @@ public class SignalComponentTest
     [Fact]
     public void TestThrowsArgumentExceptionForNonLetterCharInput()
     {
-        var component = new SymmetricSignalComponentTest("EKMFLGDQVZNTOWYHXUSPAIBRCJ");
+        var component = new SymmetricSignalComponentTestClass("EJMZALYXVBWFCRQUONTSPIKHGD");
     
         Assert.Throws<ArgumentException>(() =>
         {
