@@ -54,4 +54,9 @@ public class Letter
     {
         return (char)(_index + 'A');
     }
+
+    public int GetIndex()
+    {
+        return _index;
+    }
 }

@@ -15,16 +15,21 @@ public class Rotor : DirectionalSignalComponent
         VIII,
     }
     // ReSharper restore InconsistentNaming
+
+    private int[] _notches = new int[1];
     
+    // ReSharper disable once RedundantBaseConstructorCall
     public Rotor() : base() { }
     public Rotor(string stringMapping) : base(stringMapping) { }
-    public int RingPosition { get; set; }
+    public int RingPosition { get; init; }
     public int StartPosition
     {
         set => TopPosition = value;
     }
 
     private int TopPosition { get; set; }
+
+    public bool IsInNotchPosition => _notches.Contains(TopPosition);
 
     public void Rotate()
     {
@@ -55,5 +60,24 @@ public class Rotor : DirectionalSignalComponent
         var output = new Letter(preOutputChar) - TopPosition + RingPosition;
 
         return output.GetChar();
+    }
+
+    public void SetNotch(char notch1, char notch2 = '?')
+    {
+        if (notch2 == '?')
+        {
+            _notches = new []
+            {
+                new Letter(notch1).GetIndex()
+            };
+        }
+        else
+        {
+            _notches = new []
+            {
+                new Letter(notch1).GetIndex(),
+                new Letter(notch2).GetIndex()
+            };
+        }
     }
 }

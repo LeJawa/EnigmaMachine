@@ -34,6 +34,83 @@ public class RotorTest
         Assert.NotNull(component);
     }
     
+    // Test SetNotch
+    [Fact]
+    public void TestSetOneNotch()
+    {
+        var component = new Rotor();
+        component.SetNotch('A');
+    }
+    [Fact]
+    public void TestSetTwoNotch()
+    {
+        var component = new Rotor();
+        component.SetNotch('A', 'B');
+    }
+    
+    
+    // Test IsInNotchPosition
+    [Theory]
+    [InlineData(0, 'A')]
+    [InlineData(1, 'B')]
+    public void TestIsInNotchPositionTrue(int topPosition, char notch)
+    {
+        var component = new Rotor
+        {
+            StartPosition = topPosition
+        };
+        
+        component.SetNotch(notch);
+
+        Assert.True(component.IsInNotchPosition);
+    }
+    
+    [Theory]
+    [InlineData(0, 'B')]
+    [InlineData(1, 'A')]
+    public void TestIsInNotchPositionFalse(int topPosition, char notch)
+    {
+        var component = new Rotor
+        {
+            StartPosition = topPosition
+        };
+        
+        component.SetNotch(notch);
+
+        Assert.False(component.IsInNotchPosition);
+    }
+    
+    // Test IsInNotchPosition with two notches
+    [Theory]
+    [InlineData(0, 'A', 'B')]
+    [InlineData(1, 'A', 'B')]
+    public void TestIsInNotchPositionTrueWithTwoNotches(int topPosition, char notch1, char notch2)
+    {
+        var component = new Rotor
+        {
+            StartPosition = topPosition
+        };
+        
+        component.SetNotch(notch1, notch2);
+
+        Assert.True(component.IsInNotchPosition);
+    }
+    
+    [Theory]
+    [InlineData(2, 'A', 'B')]
+    [InlineData(0, 'C', 'B')]
+    public void TestIsInNotchPositionFalseWithTwoNotches(int topPosition, char notch1, char notch2)
+    {
+        var component = new Rotor
+        {
+            StartPosition = topPosition
+        };
+        
+        component.SetNotch(notch1, notch2);
+
+        Assert.False(component.IsInNotchPosition);
+    }
+
     // RingPosition works as intended
     [Theory]
     [InlineData(0, 'A', 'E')]

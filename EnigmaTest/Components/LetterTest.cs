@@ -18,6 +18,16 @@ public class LetterTest
         Assert.Equal('A', output);
     }
     
+    // Letter can return index value
+    [Fact]
+    public void LetterGetsIndexValue()
+    {
+        var letter = new Letter('Z');
+        int index = letter.GetIndex();
+        
+        Assert.Equal(25, index);
+    }
+    
     // Letter accepts lowercase and uppercase char inputs
     [Fact]
     public void LetterAcceptsLowercase()
