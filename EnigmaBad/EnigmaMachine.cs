@@ -3,7 +3,7 @@ using System.Collections.Generic;
 // ReSharper disable CommentTypo
 // ReSharper disable StringLiteralTypo
 
-namespace Enigma;
+namespace EnigmaBad;
 
 public class EnigmaMachine
 {
@@ -34,12 +34,12 @@ public class EnigmaMachine
             _backwardMapping[letter1] = letter2;
         }
 
-        public char GetForwardLetter(char letter)
+        public virtual char GetForwardLetter(char letter)
         {
             return _forwardMapping[letter];
         }
 
-        public char GetBackwardLetter(char letter)
+        public virtual char GetBackwardLetter(char letter)
         {
             return _backwardMapping[letter];
         }
@@ -47,11 +47,17 @@ public class EnigmaMachine
 
     private class Rotor : SignalComponent
     {
-        private int _ringPosition = 0;
-        private int _topPosition = 0;
+        private int _ringPosition  = 0;
+        public int RingPosition
+        {
+            get => _ringPosition;
+            set => _ringPosition = -value;
+        }
 
-        private int _notch1;
-        private int _notch2;
+        public int TopPosition { get; set; } = 0;
+
+        private readonly int _notch1;
+        private readonly int _notch2;
 
         public Rotor(string mappingString, int notch1, int notch2 = -1) : base(mappingString)
         {
@@ -63,6 +69,43 @@ public class EnigmaMachine
         {
             _notch1 = -1;
             _notch2 = -1;
+        }
+
+        public override char GetForwardLetter(char letter)
+        {
+            char newLetter = AddToLetter(letter, TopPosition + RingPosition);
+
+            newLetter = base.GetForwardLetter(newLetter);
+            
+            newLetter = AddToLetter(newLetter, -TopPosition);
+            return newLetter;
+        }
+
+        public override char GetBackwardLetter(char letter)
+        {
+            char newLetter = AddToLetter(letter, TopPosition);
+
+            newLetter = base.GetBackwardLetter(newLetter);
+
+            newLetter = AddToLetter(newLetter, -TopPosition - RingPosition);
+            return newLetter;
+        }
+
+        private char AddToLetter(char letter, int valueToAdd)
+        {
+            int newLetterTmp1 = letter - 'A' + valueToAdd;
+            while (newLetterTmp1 < 0)
+                newLetterTmp1 += 26;
+
+            char newLetter = (char)(newLetterTmp1 % 26 + 'A');
+            return newLetter;
+        }
+
+        // Returns true if next rotor needs to advance
+        public bool AdvanceLetter()
+        {
+            TopPosition = (TopPosition + 1) % 26;
+            return TopPosition == _notch1 || TopPosition == _notch2;
         }
     }
 
@@ -90,7 +133,7 @@ public class EnigmaMachine
 
             switch (reflector)
             {
-                case 'A': //       ABCDEFGHIJKLMNOPQRSTUVWXYZ
+                case 'A': //                                     ABCDEFGHIJKLMNOPQRSTUVWXYZ
                     _reflector = new SignalComponent("EJMZALYXVBWFCRQUONTSPIKHGD");
                     return;
                 case 'B':
@@ -130,7 +173,9 @@ public class EnigmaMachine
             // V 	            Z 	    If rotor steps from Z to A, the next rotor is advanced
             // VI, VII, VIII 	Z+M 	If rotor steps from Z to A, or from M to N the next rotor is advanced
 
-            var rotorStringArray = rotors.Split(' ');
+            string[] rotorStringArray = rotors.Split(' ');
+            string[] ringPositionStringArray = ringPositions.Split(' ');
+            string[] startPositionStringArray = startPositions.Split(' ');
 
             _rotors = new Rotor[rotorStringArray.Length];
 
@@ -138,29 +183,29 @@ public class EnigmaMachine
             {
                 switch (rotorStringArray[i])
                 {
-                    case "I": //       ABCDEFGHIJKLMNOPQRSTUVWXYZ
-                        _rotors[i] = new Rotor("EKMFLGDQVZNTOWYHXUSPAIBRCJ", 'Q');
+                    case "I": //                           ABCDEFGHIJKLMNOPQRSTUVWXYZ
+                        _rotors[i] = new Rotor("EKMFLGDQVZNTOWYHXUSPAIBRCJ", 'Q' - 'A');
                         break;
-                    case "II": //       ABCDEFGHIJKLMNOPQRSTUVWXYZ
-                        _rotors[i] = new Rotor("AJDKSIRUXBLHWTMCQGZNPYFVOE", 'E');
+                    case "II": //                          ABCDEFGHIJKLMNOPQRSTUVWXYZ
+                        _rotors[i] = new Rotor("AJDKSIRUXBLHWTMCQGZNPYFVOE", 'E' - 'A');
                         break;
-                    case "III": //       ABCDEFGHIJKLMNOPQRSTUVWXYZ
-                        _rotors[i] = new Rotor("BDFHJLCPRTXVZNYEIWGAKMUSQO", 'V');
+                    case "III": //                         ABCDEFGHIJKLMNOPQRSTUVWXYZ
+                        _rotors[i] = new Rotor("BDFHJLCPRTXVZNYEIWGAKMUSQO", 'V' - 'A');
                         break;
                     case "IV": //       ABCDEFGHIJKLMNOPQRSTUVWXYZ
-                        _rotors[i] = new Rotor("ESOVPZJAYQUIRHXLNFTGKDCMWB", 'J');
+                        _rotors[i] = new Rotor("ESOVPZJAYQUIRHXLNFTGKDCMWB", 'J' - 'A');
                         break;
                     case "V": //       ABCDEFGHIJKLMNOPQRSTUVWXYZ
-                        _rotors[i] = new Rotor("VZBRGITYUPSDNHLXAWMJQOFECK", 'Z');
+                        _rotors[i] = new Rotor("VZBRGITYUPSDNHLXAWMJQOFECK", 'Z' - 'A');
                         break;
                     case "VI": //       ABCDEFGHIJKLMNOPQRSTUVWXYZ
-                        _rotors[i] = new Rotor("JPGVOUMFYQBENHZRDKASXLICTW", 'Z', 'M');
+                        _rotors[i] = new Rotor("JPGVOUMFYQBENHZRDKASXLICTW", 'Z' - 'A', 'M' - 'A');
                         break;
                     case "VII": //       ABCDEFGHIJKLMNOPQRSTUVWXYZ
-                        _rotors[i] = new Rotor("NZJHGRCXMYSWBOUFAIVLPEKQDT", 'Z', 'M');
+                        _rotors[i] = new Rotor("NZJHGRCXMYSWBOUFAIVLPEKQDT", 'Z' - 'A', 'M' - 'A');
                         break;
                     case "VIII": //       ABCDEFGHIJKLMNOPQRSTUVWXYZ
-                        _rotors[i] = new Rotor("FKQHTLXOCBJSPDZRAMEWNIUYGV", 'Z', 'M');
+                        _rotors[i] = new Rotor("FKQHTLXOCBJSPDZRAMEWNIUYGV", 'Z' - 'A', 'M' - 'A');
                         break;
                     case "Beta": //       ABCDEFGHIJKLMNOPQRSTUVWXYZ
                         _rotors[i] = new Rotor("LEYJVCNIXWPBQMDRTAKZGFUHOS", -1);
@@ -169,27 +214,40 @@ public class EnigmaMachine
                         _rotors[i] = new Rotor("FSOKANUERHMBTIYCWLQPZXVGJD", -1);
                         break;
                 }
+
+                _rotors[i].TopPosition = char.Parse(startPositionStringArray[i]) - 'A';
+                _rotors[i].RingPosition = int.Parse(ringPositionStringArray[i]) - 1;
+
             }
         }
 
         public char GetLetter(char letter)
         {
+            RotateRotors();
+            
             var encryptedLetter = letter;
 
-            foreach (Rotor rotor in _rotors)
+            for (int i = NumberOfRotors - 1; i >= 0; i--)
             {
-                encryptedLetter = rotor.GetForwardLetter(encryptedLetter);
+                encryptedLetter = _rotors[i].GetForwardLetter(encryptedLetter);
             }
 
             encryptedLetter = _reflector.GetForwardLetter(encryptedLetter);
 
-            // Backward loop (excluding reflector)
-            for (int i = NumberOfRotors - 1; i >= 0; i--)
+            // Backward loop
+            foreach (Rotor rotor in _rotors)
             {
-                encryptedLetter = _rotors[i].GetBackwardLetter(encryptedLetter);
+                encryptedLetter = rotor.GetBackwardLetter(encryptedLetter);
             }
 
             return encryptedLetter;
+        }
+
+        private void RotateRotors()
+        {
+            int index = NumberOfRotors - 1;
+            while (index >= 0 && _rotors[index].AdvanceLetter())
+                index--;
         }
     }
 
@@ -234,6 +292,11 @@ public class EnigmaMachine
 
     public void InitializePlugboard(string positions)
     {
+        if (positions == "")
+        {
+            return;
+        }
+        
         foreach (var pair in positions.Split(' '))
         {
             _plugboard.SetLetter(pair[0], pair[1]);
