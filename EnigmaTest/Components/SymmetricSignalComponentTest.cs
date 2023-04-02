@@ -13,6 +13,7 @@ public class SymmetricSignalComponentTest
     {
         public SymmetricSignalComponentTestClass(string mapping) : base(mapping) { }
 
+        // ReSharper disable once RedundantBaseConstructorCall
         public SymmetricSignalComponentTestClass() : base() { }
     }
     
@@ -108,6 +109,17 @@ public class SymmetricSignalComponentTest
         {
             component.ForwardsPass('.');
         });
+    }
+    
+    // GetMapping returns a string with the forwards mapping
+    [Fact]
+    public void TestGetMapping()
+    {
+        var component = new SymmetricSignalComponentTestClass("EJMZALYXVBWFCRQUONTSPIKHGD");
+
+        var output = component.GetMapping();
+        
+        Assert.Equal("EJMZALYXVBWFCRQUONTSPIKHGD",  output);
     }
     
 }

@@ -176,8 +176,8 @@ public class RotorTest
     [InlineData(2, 'A', 'W')]
     [InlineData(2, 'B', 'E')]
     [InlineData(2, 'Z', 'U')]
-    [InlineData(26, 'A', 'E')]
-    [InlineData(26, 'B', 'K')]
+    [InlineData(26, 'A', 'U')]
+    [InlineData(26, 'B', 'W')]
     [InlineData(26, 'Z', 'J')]
     public void TestRotateMultipleTimesBackwardsPass(int timesToRotate, char input, char expectedOutput)
     {

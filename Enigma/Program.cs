@@ -1,3 +1,5 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
-Console.WriteLine("Hello, World!");
+using Enigma.Components;
+
+PlugBoard plugBoard = new PlugBoard("AM FI NV PS TU WZ");

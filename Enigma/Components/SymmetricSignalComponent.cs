@@ -43,7 +43,7 @@ public abstract class SymmetricSignalComponent
         }
     }
 
-    protected virtual char GetOutputFromMapping(char input, Dictionary<char, char> mapping)
+    protected char GetOutputFromMapping(char input, Dictionary<char, char> mapping)
     {
         char sanitizedInput = SanitizeInputLetter(input);
         return mapping[sanitizedInput];
@@ -59,7 +59,7 @@ public abstract class SymmetricSignalComponent
         return char.ToUpper(input);
     }
 
-    public char ForwardsPass(char input)
+    public virtual char ForwardsPass(char input)
     {
         return GetOutputFromMapping(input, _forwardsMapping);
     }
@@ -68,4 +68,17 @@ public abstract class SymmetricSignalComponent
     {
         return ForwardsPass(input);
     }
+
+    public string GetMapping()
+    {
+        string output = "";
+
+        foreach (char letter in Alphabet)
+        {
+            output += _forwardsMapping[letter];
+        }
+
+        return output;
+    }
+    
 }

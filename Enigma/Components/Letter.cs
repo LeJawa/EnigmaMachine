@@ -8,11 +8,6 @@ public class Letter
 
     private static char ParseIndex(int index)
     {
-        if (index < 0 || index > 25)
-        {
-            throw new ArgumentException($"Index is out of bounds (0, 25): {index}");
-        }
-
         return (char)(index + 'A');
     }
 
@@ -55,7 +50,7 @@ public class Letter
         return letter + -amount;
     }
 
-    public char Get()
+    public char GetChar()
     {
         return (char)(_index + 'A');
     }

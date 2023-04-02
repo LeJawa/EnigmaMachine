@@ -2,18 +2,26 @@ namespace Enigma.Components;
 
 public class Rotor : DirectionalSignalComponent
 {
-    private int _startPosition;
+    // ReSharper disable InconsistentNaming
+    public enum Name
+    {
+        I,
+        II,
+        III,
+        IV,
+        V,
+        VI,
+        VII,
+        VIII,
+    }
+    // ReSharper restore InconsistentNaming
+    
     public Rotor() : base() { }
     public Rotor(string stringMapping) : base(stringMapping) { }
     public int RingPosition { get; set; }
     public int StartPosition
     {
-        get => _startPosition;
-        set
-        {
-            _startPosition = value;
-            TopPosition = value;
-        }
+        set => TopPosition = value;
     }
 
     private int TopPosition { get; set; }
@@ -27,9 +35,25 @@ public class Rotor : DirectionalSignalComponent
         }
     }
 
-    protected override char GetOutputFromMapping(char input, Dictionary<char, char> mapping)
+    public override char ForwardsPass(char input)
     {
-        char output = base.GetOutputFromMapping((char)(input - TopPosition), mapping);
-        return (char)(output + TopPosition);
+        var inputLetter = new Letter(input);
+
+        var preOutputChar = base.ForwardsPass((inputLetter + TopPosition - RingPosition).GetChar());
+
+        var output = new Letter(preOutputChar) - TopPosition + RingPosition;
+
+        return output.GetChar();
+    }
+
+    public override char BackwardsPass(char input)
+    {
+        var inputLetter = new Letter(input);
+
+        var preOutputChar = base.BackwardsPass((inputLetter + TopPosition - RingPosition).GetChar());
+
+        var output = new Letter(preOutputChar) - TopPosition + RingPosition;
+
+        return output.GetChar();
     }
 }

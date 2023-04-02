@@ -13,7 +13,7 @@ public class LetterTest
     {
         var letter = new Letter('A');
 
-        char output = letter.Get();
+        char output = letter.GetChar();
         
         Assert.Equal('A', output);
     }
@@ -24,7 +24,7 @@ public class LetterTest
     {
         var letter = new Letter('a');
 
-        char output = letter.Get();
+        char output = letter.GetChar();
         
         Assert.Equal('A', output);
     }
@@ -47,7 +47,7 @@ public class LetterTest
     {
         var letter = new Letter(input);
         var outputLetter = letter + increment;
-        char output = outputLetter.Get();
+        char output = outputLetter.GetChar();
         
         Assert.Equal(expectedOutput, output);
     }
@@ -60,7 +60,7 @@ public class LetterTest
     {
         var letter = new Letter(input);
         var outputLetter = letter - decrement;
-        char output = outputLetter.Get();
+        char output = outputLetter.GetChar();
         
         Assert.Equal(expectedOutput, output);
     }
@@ -72,7 +72,7 @@ public class LetterTest
     {
         var letter = new Letter(input);
         var outputLetter = letter + increment;
-        char output = outputLetter.Get();
+        char output = outputLetter.GetChar();
         
         Assert.Equal(expectedOutput, output);
     }
@@ -82,7 +82,7 @@ public class LetterTest
     {
         var letter = new Letter(input);
         var outputLetter = letter - decrement;
-        char output = outputLetter.Get();
+        char output = outputLetter.GetChar();
         
         Assert.Equal(expectedOutput, output);
     }
