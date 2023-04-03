@@ -1,0 +1,39 @@
+.column-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-gap: 10px;
+}
+
+.component {
+    width: 100%;
+    float: left;
+    padding: 10px;
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr 25fr 1fr;
+    grid-gap: 10px;
+    border-radius: 10px;
+}
+
+.red {
+    border: 2px solid #b90202;
+}
+
+.blue {
+    border: 2px solid #0055ff;
+}
+
+.green {
+    border: 2px solid #0f3d05;
+}
+
+.internals-columns {
+    display: grid;
+    grid-template-columns: 1fr 6fr 1fr;
+    grid-gap: 2px;
+}
+
+.internals-rows {
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-gap: 2px;
+}
