@@ -67,6 +67,7 @@ public class RotorAssemblyTest
     // SetRingPositions
     [Theory]
     [InlineData("I II III", "A B C")]
+    [InlineData("I II III", "01 02 03")]
     [InlineData("I", "Z")]
     public void TestSetRingPositions(string rotorPositions, string startPositions)
     {
@@ -78,6 +79,7 @@ public class RotorAssemblyTest
     [Theory]
     [InlineData("I II III", "A B")]
     [InlineData("I", ".")]
+    [InlineData("I", "AB")]
     public void TestSetRingPositionsThrowsArgumentExceptions(string rotorPositions, string startPositions)
     {
         RotorAssembly rotorAssembly = new RotorAssembly(rotorPositions);
