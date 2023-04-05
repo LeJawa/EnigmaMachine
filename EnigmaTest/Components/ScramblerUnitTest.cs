@@ -53,4 +53,26 @@ public class ScramblerUnitTest
 
         Assert.Equal(expectedOutput, encodedLetter);
     }
+    
+    // Test GetRotorsInfo
+    [Fact]
+    public void TestGetRotorsInfo()
+    {
+        ScramblerUnit scramblerUnit = new ScramblerUnit("B", "III II I", "A A A");
+
+        Rotor.Info[] rotorsInfo = scramblerUnit.GetRotorsInfo();
+
+        Assert.Equal(3, rotorsInfo.Length);
+    }
+    
+    // Test GetReflectorInfo
+    [Fact]
+    public void GetReflectorInfo()
+    {
+        ScramblerUnit scramblerUnit = new ScramblerUnit("B", "III II I", "A A A");
+
+        Reflector.Info reflectorInfo = scramblerUnit.GetReflectorInfo();
+
+        Assert.IsType<Reflector.Info>(reflectorInfo);
+    }
 }

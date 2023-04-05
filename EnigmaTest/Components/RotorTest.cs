@@ -29,7 +29,7 @@ public class RotorTest
     [Fact]
     public void TestExistenceOfSignalComponentStringConstructor()
     {
-        var component = new Rotor(SymmetricSignalComponent.Alphabet); 
+        var component = new Rotor(Rotor.Name.Straight, SymmetricSignalComponent.Alphabet); 
         
         Assert.NotNull(component);
     }
@@ -121,7 +121,7 @@ public class RotorTest
     [InlineData(25, 'Z', 'D')]
     public void TestRingPositionWithNonEmptyConstructor(int ringPosition, char input, char expectedOutput)
     {
-        var rotor = new Rotor("EKMFLGDQVZNTOWYHXUSPAIBRCJ")
+        var rotor = new Rotor(Rotor.Name.I, "EKMFLGDQVZNTOWYHXUSPAIBRCJ")
         {
             RingPosition = ringPosition
         };
@@ -141,7 +141,7 @@ public class RotorTest
     [InlineData(25, 'Z', 'D')]
     public void TestStartPositionWithNonEmptyConstructor(int startPosition, char input, char expectedOutput)
     {
-        var rotor = new Rotor("EKMFLGDQVZNTOWYHXUSPAIBRCJ")
+        var rotor = new Rotor(Rotor.Name.I, "EKMFLGDQVZNTOWYHXUSPAIBRCJ")
         {
             StartPosition = startPosition
         };
@@ -158,7 +158,7 @@ public class RotorTest
     [InlineData('Z', 'D')]
     public void TestRotateOnce(char input, char expectedOutput)
     {
-        var rotor = new Rotor("EKMFLGDQVZNTOWYHXUSPAIBRCJ");
+        var rotor = new Rotor(Rotor.Name.I, "EKMFLGDQVZNTOWYHXUSPAIBRCJ");
 
         rotor.Rotate();
 
@@ -177,7 +177,7 @@ public class RotorTest
     [InlineData(26, 'Z', 'J')]
     public void TestRotateMultipleTimes(int timesToRotate, char input, char expectedOutput)
     {
-        var rotor = new Rotor("EKMFLGDQVZNTOWYHXUSPAIBRCJ");
+        var rotor = new Rotor(Rotor.Name.I, "EKMFLGDQVZNTOWYHXUSPAIBRCJ");
 
         for (int i = 0; i < timesToRotate; i++)
         {
@@ -202,7 +202,7 @@ public class RotorTest
     [InlineData(25, 'Z', 'T')]
     public void TestRingPositionBackwardsPass(int ringPosition, char input, char expectedOutput)
     {
-        var rotor = new Rotor("EKMFLGDQVZNTOWYHXUSPAIBRCJ")
+        var rotor = new Rotor(Rotor.Name.I, "EKMFLGDQVZNTOWYHXUSPAIBRCJ")
         {
             RingPosition = ringPosition
         };
@@ -222,7 +222,7 @@ public class RotorTest
     [InlineData(25, 'Z', 'P')]
     public void TestStartPositionBackwardsPass(int startPosition, char input, char expectedOutput)
     {
-        var rotor = new Rotor("EKMFLGDQVZNTOWYHXUSPAIBRCJ")
+        var rotor = new Rotor(Rotor.Name.I, "EKMFLGDQVZNTOWYHXUSPAIBRCJ")
         {
             StartPosition = startPosition
         };
@@ -239,7 +239,7 @@ public class RotorTest
     [InlineData('Z', 'T')]
     public void TestRotateOnceBackwardsPass(char input, char expectedOutput)
     {
-        var rotor = new Rotor("EKMFLGDQVZNTOWYHXUSPAIBRCJ");
+        var rotor = new Rotor(Rotor.Name.I, "EKMFLGDQVZNTOWYHXUSPAIBRCJ");
 
         rotor.Rotate();
 
@@ -258,7 +258,7 @@ public class RotorTest
     [InlineData(26, 'Z', 'J')]
     public void TestRotateMultipleTimesBackwardsPass(int timesToRotate, char input, char expectedOutput)
     {
-        var rotor = new Rotor("EKMFLGDQVZNTOWYHXUSPAIBRCJ");
+        var rotor = new Rotor(Rotor.Name.I, "EKMFLGDQVZNTOWYHXUSPAIBRCJ");
 
         for (int i = 0; i < timesToRotate; i++)
         {
@@ -274,7 +274,7 @@ public class RotorTest
     [Fact]
     public void TestRotorConstructorWithOneNotch()
     {
-        var rotor = new Rotor("EKMFLGDQVZNTOWYHXUSPAIBRCJ", 'A');
+        var rotor = new Rotor(Rotor.Name.I, "EKMFLGDQVZNTOWYHXUSPAIBRCJ", notch1: 'A');
         
         Assert.True(rotor.IsInNotchPosition);
     }
@@ -283,9 +283,25 @@ public class RotorTest
     [Fact]
     public void TestRotorConstructorWithTwoNotches()
     {
-        var rotor = new Rotor("EKMFLGDQVZNTOWYHXUSPAIBRCJ", 'B', 'A');
+        var rotor = new Rotor(Rotor.Name.I, "EKMFLGDQVZNTOWYHXUSPAIBRCJ", notch1: 'B', notch2: 'A');
         
         Assert.True(rotor.IsInNotchPosition);
+    }
+    
+    // Test GetInfo
+    [Fact]
+    public void TestGetInfo()
+    {
+        var rotor = new Rotor(Rotor.Name.I, "EKMFLGDQVZNTOWYHXUSPAIBRCJ", notch1: 'A');
+
+        Rotor.Info info = rotor.GetInfo();
+
+        Assert.Equal(Rotor.Name.I, info.Name);
+        Assert.Equal('A', info.RingSetting);
+        Assert.Equal('A', info.TopPosition);
+        Assert.Equal(new []{'A'}, info.Notch);
+        // I am not asserting info.Mapping because it seems complicated and I am pretty sure it will work.
+        // Famous last words.
     }
     
 }

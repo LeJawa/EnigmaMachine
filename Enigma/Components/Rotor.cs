@@ -13,16 +13,28 @@ public class Rotor : DirectionalSignalComponent
         VI,
         VII,
         VIII,
+        Straight
     }
     // ReSharper restore InconsistentNaming
+    
+    public struct Info
+    {
+        public Name Name;
+        public Dictionary<char, char> Mapping;
+        public char TopPosition;
+        public char RingSetting;
+        public char[] Notch;
+    }
 
-    private int[] _notches = new []{-1, -1};
+    private readonly int[] _notches = new []{-1, -1};
+    private readonly Name _name;
     
     // ReSharper disable once RedundantBaseConstructorCall
     public Rotor() : base() { }
 
-    public Rotor(string stringMapping, char notch1 = '?', char notch2 = '?') : base(stringMapping)
+    public Rotor(Name name, string stringMapping, char notch1 = '?', char notch2 = '?') : base(stringMapping)
     {
+        _name = name;
         SetNotch(notch1, notch2);
     }
 
@@ -78,5 +90,49 @@ public class Rotor : DirectionalSignalComponent
         {
             _notches[1] = new Letter(notch2).GetIndex();
         }
+    }
+
+    public Info GetInfo()
+    {
+        Info info = new Info
+        {
+            Name = _name,
+            Mapping = ForwardsMapping,
+            Notch = ParseNotches(),
+            RingSetting = ParseRingPosition(),
+            TopPosition = ParseTopPosition()
+        };
+
+        return info;
+    }
+
+    private char ParseTopPosition()
+    {
+        return new Letter(TopPosition).GetChar();
+    }
+
+    private char ParseRingPosition()
+    {
+        return new Letter(RingPosition).GetChar();
+    }
+
+    private char[] ParseNotches()
+    {
+        int numberOfNotches = 0;
+        foreach (int notch in _notches)
+        {
+            if (notch != -1)
+            {
+                numberOfNotches++;
+            }
+        }
+
+        char[] notches = new char[numberOfNotches];
+        for (int i = 0; i < numberOfNotches; i++)
+        {
+            notches[i] = new Letter(_notches[i]).GetChar();
+        }
+
+        return notches;
     }
 }

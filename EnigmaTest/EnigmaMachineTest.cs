@@ -87,5 +87,4 @@ public class EnigmaMachineTest
         
         Assert.Equal(expectedEncryptedMessage, encryptedMessage);
     }
-    
 }

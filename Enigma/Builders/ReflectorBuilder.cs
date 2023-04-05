@@ -9,16 +9,18 @@ public static class ReflectorBuilder
     {
         switch (name)
         {
+            case Reflector.Name.A:
+                return new Reflector(Reflector.Name.A, "EJMZALYXVBWFCRQUONTSPIKHGD");
             case Reflector.Name.B:
-                return new Reflector("YRUHQSLDPXNGOKMIEBFZCWVJAT");
+                return new Reflector(Reflector.Name.B, "YRUHQSLDPXNGOKMIEBFZCWVJAT");
             case Reflector.Name.C:
-                return new Reflector("FVPJIAOYEDRZXWGCTKUQSBNMHL");
+                return new Reflector(Reflector.Name.C, "FVPJIAOYEDRZXWGCTKUQSBNMHL");
             case Reflector.Name.BThin:
-                return new Reflector("ENKQAUYWJICOPBLMDXZVFTHRGS");
+                return new Reflector(Reflector.Name.BThin, "ENKQAUYWJICOPBLMDXZVFTHRGS");
             case Reflector.Name.CThin:
-                return new Reflector("RDOBJNTKVEHMLFCWZAXGYIPSUQ");
-            default: // Reflector.Name.A
-                return new Reflector("EJMZALYXVBWFCRQUONTSPIKHGD");
+                return new Reflector(Reflector.Name.CThin, "RDOBJNTKVEHMLFCWZAXGYIPSUQ");
+            default: // Mirror reflector
+                return new Reflector(Reflector.Name.Mirror, "ABCDEFGHIJKLMNOPQRSTUVWXYZ");
         }
     }
 
@@ -36,6 +38,8 @@ public static class ReflectorBuilder
                 return Get(Reflector.Name.BThin);
             case "CThin":
                 return Get(Reflector.Name.CThin);
+            case "Mirror":
+                return Get(Reflector.Name.Mirror);
             default:
                 throw new ArgumentException($"Reflector doesn't exists: {name}");
         }

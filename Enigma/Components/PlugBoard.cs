@@ -16,6 +16,11 @@ public class PlugBoard : SymmetricSignalComponent
         public static string FoundMoreThanTenPairsInString(string letterPairs)
             => $"The string contains more than 10 pairs of letters: {letterPairs}";
     }
+    
+    public struct Info
+    {
+        public Dictionary<char, char> Mapping;
+    }
 
     public PlugBoard()
     {
@@ -86,5 +91,15 @@ public class PlugBoard : SymmetricSignalComponent
         }
         
         return pairs;
+    }
+
+    public Info GetInfo()
+    {
+        Info info = new Info
+        {
+            Mapping = ForwardsMapping,
+        };
+
+        return info;
     }
 }

@@ -4,8 +4,21 @@ namespace Enigma;
 
 public class EnigmaMachine
 {
+    public struct Info
+    {
+        public PlugBoard.Info PlugboardInfo;
+        public Reflector.Info ReflectorInfo;
+        public Rotor.Info[] RotorInfoList;
+    }
+
     private readonly PlugBoard _plugBoard;
     private readonly ScramblerUnit _scramblerUnit;
+
+    public EnigmaMachine()
+    {
+        _plugBoard = new PlugBoard();
+        _scramblerUnit = new ScramblerUnit();
+    }
     
     public EnigmaMachine(string reflectorName, string rotorPositions, string rotorStartPositions, string rotorRingPositions, string plugBoardPairs)
     {
@@ -38,5 +51,16 @@ public class EnigmaMachine
     public string Encrypt(string clearMessage)
     {
         return Decrypt(clearMessage);
+    }
+
+    public Info GetInfo()
+    {
+        var info = new Info
+        {
+            PlugboardInfo = _plugBoard.GetInfo(),
+            ReflectorInfo = _scramblerUnit.GetReflectorInfo(),
+            RotorInfoList = _scramblerUnit.GetRotorsInfo()
+        };
+        return info;
     }
 }

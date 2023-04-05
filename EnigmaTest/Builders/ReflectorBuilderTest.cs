@@ -92,6 +92,23 @@ public class ReflectorBuilderTest
         
         Assert.Equal("RDOBJNTKVEHMLFCWZAXGYIPSUQ", reflector.GetMapping());
     }
+
+    // Reflector Mirror ABCDEFGHIJKLMNOPQRSTUVWXYZ
+    [Fact]
+    public void TestReflectorMirror()
+    {
+        Reflector reflectorCThin = ReflectorBuilder.Get(Reflector.Name.Mirror);
+        
+        Assert.Equal("ABCDEFGHIJKLMNOPQRSTUVWXYZ", reflectorCThin.GetMapping());
+    }
+    
+    [Fact]
+    public void TestReflectorMirrorWithString()
+    {
+        Reflector reflector = ReflectorBuilder.Get("Mirror");
+        
+        Assert.Equal("ABCDEFGHIJKLMNOPQRSTUVWXYZ", reflector.GetMapping());
+    }
     
     [Fact]
     public void TestUnknownReflectorWithStringThrowsArgumentException()

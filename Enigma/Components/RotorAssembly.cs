@@ -6,8 +6,13 @@ public class RotorAssembly
 {
     private static readonly string[] ValidRotors = { "I", "II", "III", "IV", "V", "VI", "VII", "VIII" };
 
-    private Rotor[] _rotors;
-    
+    private readonly Rotor[] _rotors;
+
+    public RotorAssembly()
+    {
+        _rotors = Array.Empty<Rotor>();
+    }
+
     public RotorAssembly(string rotorPositions, string startPositions = "?", string ringPositions = "?")
     {
         string[] sanitizedRotorPositions = SanitizeRotorPositions(rotorPositions);
@@ -170,5 +175,17 @@ public class RotorAssembly
             if (rotorNeedsToRotate[i])
                 _rotors[i].Rotate();
         }
+    }
+
+    public Rotor.Info[] GetRotorsInfo()
+    {
+        Rotor.Info[] rotorsInfo = new Rotor.Info[_rotors.Length];
+
+        for (var i = 0; i < _rotors.Length; i++)
+        {
+            rotorsInfo[i] = _rotors[i].GetInfo();
+        }
+
+        return rotorsInfo;
     }
 }

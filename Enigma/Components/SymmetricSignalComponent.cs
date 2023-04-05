@@ -4,11 +4,11 @@ public abstract class SymmetricSignalComponent
 {
     public const string Alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-    private readonly Dictionary<char, char> _forwardsMapping;
+    protected readonly Dictionary<char, char> ForwardsMapping;
 
     protected SymmetricSignalComponent()
     {
-        _forwardsMapping = CreateMapping(Alphabet, Alphabet);
+        ForwardsMapping = CreateMapping(Alphabet, Alphabet);
     }
 
     protected Dictionary<char,char> CreateMapping(string input, string output)
@@ -24,15 +24,15 @@ public abstract class SymmetricSignalComponent
 
     protected void CreateLetterPairMapping(char letter1, char letter2)
     {
-        _forwardsMapping[letter1] = letter2;
-        _forwardsMapping[letter2] = letter1;
+        ForwardsMapping[letter1] = letter2;
+        ForwardsMapping[letter2] = letter1;
     }
 
     protected SymmetricSignalComponent(string mappingString)
     {
         CheckMappingString(mappingString);
         
-        _forwardsMapping = CreateMapping(Alphabet, mappingString);
+        ForwardsMapping = CreateMapping(Alphabet, mappingString);
     }
 
     private static void CheckMappingString(string mappingString)
@@ -61,7 +61,7 @@ public abstract class SymmetricSignalComponent
 
     public virtual char ForwardsPass(char input)
     {
-        return GetOutputFromMapping(input, _forwardsMapping);
+        return GetOutputFromMapping(input, ForwardsMapping);
     }
 
     public virtual char BackwardsPass(char input)
@@ -75,7 +75,7 @@ public abstract class SymmetricSignalComponent
 
         foreach (char letter in Alphabet)
         {
-            output += _forwardsMapping[letter];
+            output += ForwardsMapping[letter];
         }
 
         return output;

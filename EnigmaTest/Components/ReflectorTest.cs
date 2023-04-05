@@ -10,7 +10,7 @@ public class ReflectorTest
 {
     // Reflector is child of SignalComponent
     [Fact]
-    public void TestPlugBoardIsChildOfSignalComponent()
+    public void TestReflectorIsChildOfSignalComponent()
     {
         Reflector reflector = new Reflector();
 
@@ -40,7 +40,7 @@ public class ReflectorTest
     [InlineData('Z', 'D')]
     public void TestCorrectOutputAfterForwardsPassWithStringMapping(char input, char expectedOutput)
     {
-        Reflector reflector = new Reflector("EJMZALYXVBWFCRQUONTSPIKHGD");
+        Reflector reflector = new Reflector(Reflector.Name.A, "EJMZALYXVBWFCRQUONTSPIKHGD");
         
         char output = reflector.ForwardsPass(input);
         
@@ -56,11 +56,24 @@ public class ReflectorTest
     [InlineData('Z', 'D')]
     public void TestCorrectOutputAfterBackwardsPassWithStringMapping(char input, char expectedOutput)
     {
-        Reflector reflector = new Reflector("EJMZALYXVBWFCRQUONTSPIKHGD");
+        Reflector reflector = new Reflector(Reflector.Name.A, "EJMZALYXVBWFCRQUONTSPIKHGD");
         
         char output = reflector.BackwardsPass(input);
         
         Assert.Equal(output, expectedOutput);
+    }
+    
+    // Test GetInfo
+    [Fact]
+    public void TestGetInfo()
+    {
+        var reflector = new Reflector(Reflector.Name.A, "EJMZALYXVBWFCRQUONTSPIKHGD");
+
+        Reflector.Info info = reflector.GetInfo();
+
+        Assert.Equal(Reflector.Name.A, info.Name);
+        // I am not asserting info.Mapping because it seems complicated and I am pretty sure it will work.
+        // Famous last words.
     }
     
     

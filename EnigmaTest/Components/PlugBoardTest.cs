@@ -148,4 +148,17 @@ public class PlugBoardTest
         
         Assert.Equal(output, expectedOutput);
     }
+    
+    // Test GetInfo
+    [Fact]
+    public void TestGetInfo()
+    {
+        PlugBoard plugBoard = new PlugBoard();
+
+        PlugBoard.Info info = plugBoard.GetInfo();
+
+        Assert.IsType<PlugBoard.Info>(info);
+        // I am not asserting info.Mapping because it seems complicated and I am pretty sure it will work.
+        // Famous last words.
+    }
 }

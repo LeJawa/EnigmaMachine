@@ -11,22 +11,24 @@ public static class RotorBuilder
     {
         switch (name)
         {
+            case Rotor.Name.I:
+                return new Rotor(Rotor.Name.I, "EKMFLGDQVZNTOWYHXUSPAIBRCJ", notch1: 'Q');
             case Rotor.Name.II:
-                return new Rotor("AJDKSIRUXBLHWTMCQGZNPYFVOE", 'E');
+                return new Rotor(Rotor.Name.II, "AJDKSIRUXBLHWTMCQGZNPYFVOE", notch1: 'E');
             case Rotor.Name.III:
-                return new Rotor("BDFHJLCPRTXVZNYEIWGAKMUSQO", 'V');
+                return new Rotor(Rotor.Name.III, "BDFHJLCPRTXVZNYEIWGAKMUSQO", notch1: 'V');
             case Rotor.Name.IV:
-                return new Rotor("ESOVPZJAYQUIRHXLNFTGKDCMWB", 'J');
+                return new Rotor(Rotor.Name.IV, "ESOVPZJAYQUIRHXLNFTGKDCMWB", notch1: 'J');
             case Rotor.Name.V:
-                return new Rotor("VZBRGITYUPSDNHLXAWMJQOFECK", 'Z');
+                return new Rotor(Rotor.Name.V, "VZBRGITYUPSDNHLXAWMJQOFECK", notch1: 'Z');
             case Rotor.Name.VI:
-                return new Rotor("JPGVOUMFYQBENHZRDKASXLICTW", 'Z', 'M');
+                return new Rotor(Rotor.Name.VI, "JPGVOUMFYQBENHZRDKASXLICTW", notch1: 'Z', notch2: 'M');
             case Rotor.Name.VII:
-                return new Rotor("NZJHGRCXMYSWBOUFAIVLPEKQDT", 'Z', 'M');
+                return new Rotor(Rotor.Name.VII, "NZJHGRCXMYSWBOUFAIVLPEKQDT", notch1: 'Z', notch2: 'M');
             case Rotor.Name.VIII:
-                return new Rotor("FKQHTLXOCBJSPDZRAMEWNIUYGV", 'Z', 'M');
-            default: // Rotor.Name.I
-                return new Rotor("EKMFLGDQVZNTOWYHXUSPAIBRCJ", 'Q');
+                return new Rotor(Rotor.Name.VIII, "FKQHTLXOCBJSPDZRAMEWNIUYGV", notch1: 'Z', notch2: 'M');
+            default: // Rotor.Name.Straight
+                return new Rotor(Rotor.Name.Straight, "ABCDEFGHIJKLMNOPQRSTUVWXYZ");
         }
     }
 
@@ -50,6 +52,8 @@ public static class RotorBuilder
                 return Get(Rotor.Name.VII);
             case "VIII":
                 return Get(Rotor.Name.VIII);
+            case "Straight":
+                return Get(Rotor.Name.Straight);
             default:
                 throw new ArgumentException($"Rotor doesn't exists: {name}");
         }
