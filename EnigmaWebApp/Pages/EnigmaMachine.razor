@@ -1,5 +1,10 @@
 @page "/"
 
+@using Blazor.Extensions
+@using Blazor.Extensions.Canvas
+@using Blazor.Extensions.Canvas.Canvas2D
+@inject IJSRuntime JsRuntime;
+
 @* Tutorial on Blazor.Extensions.Canvas 
 https://swharden.com/blog/2021-01-07-blazor-canvas-animated-graphics/ *@
 
@@ -7,95 +12,32 @@ https://swharden.com/blog/2021-01-07-blazor-canvas-animated-graphics/ *@
 
 <h3>Enigma Machine</h3>
 
-<div class="column-layout">
-
-<div class="component red">
-    <div>Reflector</div>
-    <div></div>
-    <div>B</div>
-    <div class="internals-rows">
-        @foreach (var letter in "ABCDEFGHIJKLMNOPQRSTUVWXYZ")
-        {
-            <div class="internals-columns">
-                <div>@letter</div>
-                <div></div>
-                <div>@letter</div>
-            </div>
-        }
-    </div>
-    <div></div>
+<div id="canvasHolder" style="position: fixed; width: 100%; height: 100%">
+    <BECanvas Width="600" Height="400" @ref="_canvasReference"></BECanvas>
 </div>
 
-<div class="component blue">
-    <div>Rotor</div>
-    <div>0</div>
-    <div>III</div>
-    <div class="internals-rows">
-        @foreach (var letter in "ABCDEFGHIJKLMNOPQRSTUVWXYZ")
-        {
-            <div class="internals-columns">
-                <div>@letter</div>
-                <div></div>
-                <div>@letter</div>
-            </div>
-        }
-    </div>
-    <div>A</div>
-</div>
+@code{
+    private Models.EnigmaMachineInterface enigmaMachine = new Models.EnigmaMachineInterface();
+    private Canvas2DContext _context;
+    private BECanvasComponent _canvasReference;
+    private DateTime LastRender;
 
-<div class="component blue">
-    <div>Rotor</div>
-    <div>0</div>
-    <div>II</div>
-    <div class="internals-rows">
-        @foreach (var letter in "ABCDEFGHIJKLMNOPQRSTUVWXYZ")
-        {
-            <div class="internals-columns">
-                <div>@letter</div>
-                <div></div>
-                <div>@letter</div>
-            </div>
-        }
-    </div>
-    <div>A</div>
-</div>
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        this._context = await _canvasReference.CreateCanvas2DAsync();
+        await JsRuntime.InvokeAsync<object>("initRenderJS", DotNetObjectReference.Create(this));
+        await base.OnInitializedAsync();
+    }
 
-<div class="component blue">
-    <div>Rotor</div>
-    <div>0</div>
-    <div>I</div>
-    <div class="internals-rows">
-        @foreach (var letter in "ABCDEFGHIJKLMNOPQRSTUVWXYZ")
-        {
-            <div class="internals-columns">
-                <div>@letter</div>
-                <div></div>
-                <div>@letter</div>
-            </div>
-        }
-    </div>
-    <div>A</div>
-</div>
+    [JSInvokable]
+    public void ResizeInBlazor(double width, double height) => enigmaMachine.Resize(width, height);
 
-<div class="component green">
-    <div>Plug Board</div>
-    <div></div>
-    <div></div>
-    <div class="internals-rows">
-        @foreach (var letter in "ABCDEFGHIJKLMNOPQRSTUVWXYZ")
-        {
-            <div class="internals-columns">
-                <div>@letter</div>
-                <div></div>
-                <div>@letter</div>
-            </div>
-        }
-    </div>
-    <div></div>
-</div>
-    
-</div>
-
-@code {
-    
+    [JSInvokable]
+    public async ValueTask RenderInBlazor(float timeStamp)
+    {
+        this._context = await this._canvasReference.CreateCanvas2DAsync();
+        await enigmaMachine.Draw(_context);
+        
+        await this._context.EndBatchAsync();
+    }
 }
