@@ -9,6 +9,6 @@ The logic code is fully functional and has 100% test coverage.
 ### Terminal usage
 To encrypt/decrypt a message in the terminal follow the code present in Enigma/Program.cs.
 
-### WebApp
+### WebApp (WIP)
 I am currently exploring the Blazor WASM framework and intend to create a fully interactable
 Enigma Machine.
